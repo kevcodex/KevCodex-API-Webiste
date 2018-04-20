@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>KCDEX</title>
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+
+<body>
+
+    <h1>Welcome to KevCodex!</h1>
+
+    <h5>This is a server-side swift experiment. Using Perfect Swift and MongoDB, you can enter and delete my favorite games using this webview.</h5>
+
+    <a href="/test">TEST LINK</a>
+    <hr>
+    <h2>View Games</h2>
+    <br>
+    <form action="/game" method="GET">
+        <input type="hidden" name="test" value="test">
+        <input type="submit" value="View List">
+    </form>
+    <form action="/game-json?test=adwad" method="GET">
+        <input type="submit" value="View JSON">
+    </form>
+    <hr>
+    
+    <h2>Create Game</h2>
+    <form action="/game?test=test" method="POST">
+        Name: <br>
+        <input type="text" name="name" value="">
+        <br> Description: <br>
+        <textarea name="description" cols="40" rows="15"></textarea>
+        <br> Image URL: <br>
+        <input type="text" name="image" value="">
+        <br> Approx. Date Made: <br>
+        <input type="text" name="date" value="">
+        <br> Developer: <br>
+        <input type="text" name="developer" value="">
+        <br> API Key: <br>
+        <input type="text" name="apikey" autocomplete="off" value="">
+        <br>
+        <input type="submit" value="Save">
+    </form>
+
+
+    <hr>
+    <h2>Delete Game</h2>
+    <form action="/game-delete" method="POST">
+        Name:
+        <br>
+        <input type="text" name="name" autocomplete="off" value="">
+        <br> Api Key:
+        <br>
+        <input type="text" name="apikey" autocomplete="off" value="">
+        <br>
+        <br>
+        <input type="submit" value="Delete">
+    </form>
+
+</body>
+
+</html>
