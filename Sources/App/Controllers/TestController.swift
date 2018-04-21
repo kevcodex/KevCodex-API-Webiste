@@ -7,8 +7,6 @@
 
 import PerfectLib
 import PerfectHTTP
-import PerfectHTTPServer
-import PerfectThread
 
 final class TestController {
     
@@ -69,15 +67,5 @@ final class TestController {
         
         
     }
-    
-}
-
-struct Test: HTTPRequestFilter {
-    func filter(request: HTTPRequest, response: HTTPResponse, callback: (HTTPRequestFilterResult) -> ()) {
-        request.method = .get
-        request.addHeader(.custom(name: "dadwad"), value: "adwdawawd")
-        callback(.execute(request, response))
-    }
-    
     
 }

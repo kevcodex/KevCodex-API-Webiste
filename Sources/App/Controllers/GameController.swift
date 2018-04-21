@@ -7,7 +7,6 @@
 
 import PerfectLib
 import PerfectHTTP
-import PerfectHTTPServer
 
 final class GameController {
     
@@ -129,7 +128,7 @@ final class GameController {
         
         guard apiKey == globalApiKey else {
             response.setBody(string: "Invalid API Key")
-                .completed(status: .custom(code: 400, message: "Invalid"))
+                .completed(status: .unauthorized)
             
             return
         }
@@ -156,7 +155,7 @@ final class GameController {
         
         guard !name.isEmpty, !description.isEmpty, !image.isEmpty, !date.isEmpty, !developer.isEmpty else {
             response.setBody(string: "Params Cannot Be Empty")
-                .completed(status: .custom(code: 402, message: "Empty"))
+                .completed(status: .unauthorized)
             
             return
         }
@@ -177,7 +176,7 @@ final class GameController {
     private func getGameFromID(request: HTTPRequest, response: HTTPResponse) {
         guard let id = request.header(.custom(name: "id")) else {
             response.setBody(string: "ID header Missing")
-                .completed(status: .custom(code: 401, message: "ID header Missing"))
+                .completed(status: .unauthorized)
             
             return
         }
@@ -217,7 +216,7 @@ final class GameController {
         
         guard apiKey == globalApiKey else {
             response.setBody(string: "Invalid API Key")
-                .completed(status: .custom(code: 400, message: "Invalid"))
+                .completed(status: .unauthorized)
             
             return
         }
@@ -242,7 +241,7 @@ final class GameController {
     private func checkParameter(for type: Parameter, request: HTTPRequest, response: HTTPResponse) -> String? {
         guard let parameter = request.param(name: type.key) else {
             response.setBody(string: "\(type.string) Missing")
-                .completed(status: .custom(code: 401, message: "Parameter Missing"))
+                .completed(status: .unauthorized)
             
             return nil
         }

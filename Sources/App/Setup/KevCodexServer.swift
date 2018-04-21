@@ -23,9 +23,8 @@ class KevCodexServer {
         let gameController = GameController()
         server.addRoutes(gameController.routes)
         
-        let blah: [(HTTPRequestFilter, HTTPFilterPriority)] = [(Test(), HTTPFilterPriority.high)]
-        
-        server.setRequestFilters(blah)
+//        let filters: [(HTTPRequestFilter, HTTPFilterPriority)] = [(Test(), HTTPFilterPriority.high)]
+//        server.setRequestFilters(filters)
         
         return server
     }
