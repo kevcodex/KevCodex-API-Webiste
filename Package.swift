@@ -13,7 +13,8 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
-        .target(name: "KevCodex", dependencies: ["PerfectHTTPServer", "MongoKitten"]),
-        .testTarget(name: "AppTests", dependencies: ["KevCodex"])
+        .target(name: "Run", dependencies: ["App"]),
+        .target(name: "App", dependencies: ["PerfectHTTPServer", "MongoKitten"]),
+        .testTarget(name: "AppTests", dependencies: ["App"])
     ]
 )

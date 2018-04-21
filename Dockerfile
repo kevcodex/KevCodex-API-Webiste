@@ -38,7 +38,7 @@ USER root
 EXPOSE 8080
 
 # Run
-CMD .build/release/KevCodex
+CMD .build/release/Run
 
 
 

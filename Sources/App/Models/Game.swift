@@ -12,7 +12,7 @@ import PerfectLib
 // Make this crap better
 class Game: JSONConvertibleObject {
     
-    static let collection = database["game"]
+    static let collection = globalDataBase["game"]
     
     var id: ObjectId
     var name: String
