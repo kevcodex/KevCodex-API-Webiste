@@ -10,11 +10,11 @@ var globalDataBase: Database!
 var globalServer: HTTPServer!
 
 public func start() throws {
-    let server = KevCodexServer.server()
+    let server = KevCodex.server()
     var database: Database?
     
     do {
-        database = try MongoDatabase.database()
+        database = try KevCodex.database()
         
     } catch {
         // Unable to connect to Mongo
