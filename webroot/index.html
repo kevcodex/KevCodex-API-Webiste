@@ -3,9 +3,9 @@
 
 <head>
     <title>KCDEX</title>
-    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
-    <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body>
@@ -18,6 +18,12 @@
     <hr>
     <h2>View Games</h2>
     <br>
+    <a href="game">Games</a>
+    <br>
+    <a href="game-json">Game JSON</a>
+    <br>
+    <button>Games Button</button>
+    <br>
     <form action="/game" method="GET">
         <input type="hidden" name="test" value="test">
         <input type="submit" value="View List">
@@ -28,7 +34,7 @@
     <hr>
     
     <h2>Create Game</h2>
-    <form action="/game?test=test" method="POST">
+    <form id="tester" action="/game" method="POST">
         Name: <br>
         <input type="text" name="name" value="">
         <br> Description: <br>
@@ -44,7 +50,7 @@
         <br>
         <input type="submit" value="Save">
     </form>
-
+    <div id="save_output"></div>
 
     <hr>
     <h2>Delete Game</h2>
@@ -60,6 +66,7 @@
         <input type="submit" value="Delete">
     </form>
 
+    <script type="text/javascript" src="js/test.js"></script>
 </body>
 
 </html>

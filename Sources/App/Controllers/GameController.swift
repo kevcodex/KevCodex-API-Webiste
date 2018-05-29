@@ -10,8 +10,26 @@ import PerfectHTTP
 
 final class GameController {
     
-    enum Parameter {
+    enum Header {
         case apiKey
+        
+        var key: String {
+            switch self {
+                
+            case .apiKey:
+                return "apikey"
+            }
+        }
+        
+        var body: String {
+            switch self {
+            case .apiKey:
+                return "API Key is missing!"
+            }
+        }
+    }
+    
+    enum Parameter {
         case name
         case description
         case image
@@ -21,8 +39,6 @@ final class GameController {
         var key: String {
             switch self {
                 
-            case .apiKey:
-                return "apikey"
             case .name:
                 return "name"
             case .description:
@@ -39,9 +55,6 @@ final class GameController {
         
         var string: String {
             switch self {
-                
-            case .apiKey:
-                return "Api Key"
             case .name:
                 return "Name Parameter"
             case .description:
@@ -59,7 +72,9 @@ final class GameController {
     var routes: Routes {
         return Routes(routesArray)
     }
-    
+    // TODO: - change game id to take the id in url
+    // TODO: - change json to takes optional query as json so it converts to json
+    // TODO: - change delete to maek for RESTFUL
     private var routesArray: [Route] {
         return [
             Route(method: .get, uri: "/", handler: main),
@@ -82,6 +97,7 @@ final class GameController {
     private func getGame(request: HTTPRequest, response: HTTPResponse) {
         
         // view a specific game
+        // TODO: - should be a url?
         if let name = request.header(.custom(name: "name")) {
             
             do {
@@ -122,7 +138,7 @@ final class GameController {
     
     // MARK: - Save Game
     private func saveGame(request: HTTPRequest, response: HTTPResponse) {
-        guard let apiKey = checkParameter(for: .apiKey, request: request, response: response) else {
+        guard let apiKey = checkHeader(for: .apiKey, request: request, response: response) else {
             return
         }
         
@@ -133,42 +149,20 @@ final class GameController {
             return
         }
         
-        guard let name = checkParameter(for: .name, request: request, response: response) else {
-            return
-        }
-        
-        guard let description = checkParameter(for: .description, request: request, response: response) else {
-            return
-        }
-        
-        guard let image = checkParameter(for: .image, request: request, response: response) else {
-            return
-        }
-        
-        guard let date = checkParameter(for: .date, request: request, response: response) else {
-            return
-        }
-        
-        guard let developer = checkParameter(for: .developer, request: request, response: response) else {
-            return
-        }
-        
-        guard !name.isEmpty, !description.isEmpty, !image.isEmpty, !date.isEmpty, !developer.isEmpty else {
-            response.setBody(string: "Params Cannot Be Empty")
-                .completed(status: .unauthorized)
-            
-            return
-        }
-        
         do {
-            let game = Game(name: name, description: description, image: image, date: date, developer: developer)
+            guard let json = try request.postBodyString?.jsonDecode() as? [String: Any] else {
+                // Error handle better
+                return
+            }
+            
+            let game = try Game(dictionary: json)
             try game.save()
             
             response.setBody(string: "Created game named: \(game.name)")
                 .completed()
         } catch {
             response.setBody(string: "Error handling request: \(error)")
-                .completed(status: .internalServerError)
+                .completed(status: .notFound)
         }
     }
     
@@ -210,7 +204,7 @@ final class GameController {
     
     // MARK: - Delete Game
     private func deleteGame(request: HTTPRequest, response: HTTPResponse) {
-        guard let apiKey = checkParameter(for: .apiKey, request: request, response: response) else {
+        guard let apiKey = checkHeader(for: .apiKey, request: request, response: response) else {
             return
         }
         
@@ -237,6 +231,17 @@ final class GameController {
     }
     
     // MARK: - Helpers
+    
+    private func checkHeader(for type: Header, request: HTTPRequest, response: HTTPResponse) -> String? {
+        guard let header = request.header(.custom(name: "apikey")) else {
+            response.setBody(string: "\(type.body)")
+                .completed(status: .unauthorized)
+            
+            return nil
+        }
+        
+        return header
+    }
     
     private func checkParameter(for type: Parameter, request: HTTPRequest, response: HTTPResponse) -> String? {
         guard let parameter = request.param(name: type.key) else {

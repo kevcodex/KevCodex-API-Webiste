@@ -56,6 +56,15 @@
         }
       },
       {
+        "package": "PerfectCURL",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-CURL.git",
+        "state": {
+          "branch": null,
+          "revision": "d81d96a74f43407a4b57a7c5335fd19515b50aeb",
+          "version": "3.0.6"
+        }
+      },
+      {
         "package": "PerfectCZlib",
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-CZlib-src.git",
         "state": {
@@ -78,8 +87,26 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-HTTPServer.git",
         "state": {
           "branch": null,
-          "revision": "5212979491a2ce71c11f9449310c9e06982798d1",
-          "version": "3.0.14"
+          "revision": "6b59c578305472d6f83f3e118232f8ca1f4499e7",
+          "version": "3.0.15"
+        }
+      },
+      {
+        "package": "cURL",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-libcurl.git",
+        "state": {
+          "branch": null,
+          "revision": "672f6695d9ae04fce16ad01decef0649e0b872b0",
+          "version": "2.0.6"
+        }
+      },
+      {
+        "package": "PerfectLogger",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Logger.git",
+        "state": {
+          "branch": null,
+          "revision": "2f1baef51d316d8bc1d919e6d89f55be6b3f914c",
+          "version": "3.0.5"
         }
       },
       {
@@ -87,8 +114,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Net.git",
         "state": {
           "branch": null,
-          "revision": "e51b4174be4aea4d2a18cdc4053783ef8d5c403c",
-          "version": "3.1.2"
+          "revision": "21250368100e46319184b21c5d4150993b11f674",
+          "version": "3.1.3"
         }
       },
       {
@@ -98,6 +125,15 @@
           "branch": null,
           "revision": "d783048201086dc2cdc08627041e5001157db7f3",
           "version": "3.0.4"
+        }
+      },
+      {
+        "package": "PerfectWebRedirects",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-WebRedirects",
+        "state": {
+          "branch": null,
+          "revision": "84d2d6edc6cbe333c7d6b4dfc909bdf579eedaa1",
+          "version": "3.0.1"
         }
       },
       {

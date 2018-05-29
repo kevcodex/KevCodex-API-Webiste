@@ -9,6 +9,7 @@ import Foundation
 import PerfectLib
 import PerfectHTTP
 import PerfectHTTPServer
+import PerfectWebRedirects
 import MongoKitten
 
 class KevCodex {
@@ -26,6 +27,15 @@ class KevCodex {
         
         //        let filters: [(HTTPRequestFilter, HTTPFilterPriority)] = [(Test(), HTTPFilterPriority.high)]
         //        server.setRequestFilters(filters)
+        
+//        do {
+//            let test = try WebRedirectsFilter.filterAPIRequest(data: [:])
+//            let filters: [(HTTPRequestFilter, HTTPFilterPriority)] = [(test, HTTPFilterPriority.high)]
+//            server.setRequestFilters(filters)
+//        } catch {
+//            fatalError()
+//        }
+        
         
         return server
     }
