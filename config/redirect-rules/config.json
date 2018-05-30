@@ -1,0 +1,7 @@
+{
+
+  "/hello": {
+	"code": 302,
+	"destination": "/beers/99"
+  }
+}
