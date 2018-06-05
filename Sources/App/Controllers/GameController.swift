@@ -101,7 +101,7 @@ final class GameController {
         if let name = request.header(.custom(name: "name")) {
             
             do {
-                let game = try Game.find(name: name)
+                let game = try GameServiceLayer.find(name: name)
                 
                 response.setBody(string: "Found game with id: \(game.id), named \(game.name)")
                     .completed()
@@ -114,7 +114,7 @@ final class GameController {
             // show all games
             
             do {
-                let games = try Game.findAll()
+                let games = try GameServiceLayer.findAll()
                 
                 var string = "My Favorite games are: "
                 
@@ -151,12 +151,11 @@ final class GameController {
         
         do {
             guard let json = try request.postBodyString?.jsonDecode() as? [String: Any] else {
-                // Error handle better
-                return
+                throw JSONConversionError.syntaxError
             }
             
             let game = try Game(dictionary: json)
-            try game.save()
+            try GameServiceLayer.save(game)
             
             response.setBody(string: "Created game named: \(game.name)")
                 .completed()
@@ -176,7 +175,7 @@ final class GameController {
         }
         
         do {
-            let game = try Game.find(id: id)
+            let game = try GameServiceLayer.find(id: id)
             
             response.setBody(string: "Game is named \(game.name)")
                 .completed()
@@ -189,7 +188,7 @@ final class GameController {
     // MARK: - Get Game JSON
     private func getGameJson(request: HTTPRequest, response: HTTPResponse) {
         do {
-            let games = try Game.findAll()
+            let games = try GameServiceLayer.findAll()
             
             let string = try games.jsonEncodedString()
             
@@ -220,7 +219,7 @@ final class GameController {
         }
         
         do {
-            try Game.delete(name: name)
+            try GameServiceLayer.delete(name: name)
             
             response.setBody(string: "\(name) successfully deleted")
                 .completed()
