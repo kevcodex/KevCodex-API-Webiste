@@ -29,12 +29,13 @@ final class GameController {
         }
     }
     
-    enum Parameter {
+    enum QueryParameter {
         case name
         case description
         case image
         case date
         case developer
+        case json
         
         var key: String {
             switch self {
@@ -49,6 +50,8 @@ final class GameController {
                 return "date"
             case .developer:
                 return "developer"
+            case .json:
+                return "json"
             
             }
         }
@@ -64,7 +67,9 @@ final class GameController {
             case .date:
                 return "Date Parameter"
             case .developer:
-                return "Devevloper Parameter"
+                return "Developer Parameter"
+            case .json:
+                return "json"
             }
         }
     }
@@ -73,7 +78,6 @@ final class GameController {
         return Routes(routesArray)
     }
     // TODO: - change game id to take the id in url or query?
-    // TODO: - change json to takes optional query as json so it converts to json
     // TODO: - change delete to maek for RESTFUL aka actually use delete
     // Need to create a _methodOverride middle ware that will change method
     private var routesArray: [Route] {
@@ -82,7 +86,6 @@ final class GameController {
             Route(method: .get, uri: "/game", handler: getGame),
             Route(method: .post, uri: "/game", handler: saveGame),
             Route(method: .get, uri: "/game-id", handler: getGameFromID),
-            Route(method: .get, uri: "/game-json", handler: getGameJson),
             Route(method: .post, uri: "/game-delete", handler: deleteGame)
         ]
     }
@@ -96,6 +99,25 @@ final class GameController {
     
     // MARK: - Get Game(s)
     private func getGame(request: HTTPRequest, response: HTTPResponse) {
+        
+        if let jsonQuery = request.param(name: QueryParameter.json.key),
+            jsonQuery.lowercased() == "true" {
+            
+            do {
+                let games = try GameServiceLayer.findAll()
+                
+                let string = try games.jsonEncodedString()
+                
+                response.setBody(string: string)
+                    .completed()
+                
+            } catch {
+                response.setBody(string: "Error handling request: \(error)")
+                    .completed(status: .internalServerError)
+            }
+            
+            return
+        }
         
         // view a specific game by name
         // TODO: - should be in a url?
@@ -243,7 +265,7 @@ final class GameController {
         return header
     }
     
-    private func checkParameter(for type: Parameter, request: HTTPRequest, response: HTTPResponse) -> String? {
+    private func checkParameter(for type: QueryParameter, request: HTTPRequest, response: HTTPResponse) -> String? {
         guard let parameter = request.param(name: type.key) else {
             response.setBody(string: "\(type.string) Missing")
                 .completed(status: .unauthorized)

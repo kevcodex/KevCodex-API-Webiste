@@ -10,6 +10,7 @@ import MongoKitten
 import PerfectLib
 
 /// The API layer for saving games into the Mongo Database
+// TODO: - consider making this non static? Also maybe make protocol? 
 class GameServiceLayer {
     
     static let collection = globalDataBase["game"]
