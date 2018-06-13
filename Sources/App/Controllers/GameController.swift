@@ -72,9 +72,10 @@ final class GameController {
     var routes: Routes {
         return Routes(routesArray)
     }
-    // TODO: - change game id to take the id in url
+    // TODO: - change game id to take the id in url or query?
     // TODO: - change json to takes optional query as json so it converts to json
-    // TODO: - change delete to maek for RESTFUL
+    // TODO: - change delete to maek for RESTFUL aka actually use delete
+    // Need to create a _methodOverride middle ware that will change method
     private var routesArray: [Route] {
         return [
             Route(method: .get, uri: "/", handler: main),
@@ -96,8 +97,8 @@ final class GameController {
     // MARK: - Get Game(s)
     private func getGame(request: HTTPRequest, response: HTTPResponse) {
         
-        // view a specific game
-        // TODO: - should be a url?
+        // view a specific game by name
+        // TODO: - should be in a url?
         if let name = request.header(.custom(name: "name")) {
             
             do {

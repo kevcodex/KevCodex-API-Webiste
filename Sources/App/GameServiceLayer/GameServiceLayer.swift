@@ -32,6 +32,7 @@ class GameServiceLayer {
                                    upserting: true)
     }
     
+    // TODO - Put parsing in Game? 
     static func find(id: String) throws -> Game {
         let objectID = try ObjectId(id)
         
@@ -41,32 +42,13 @@ class GameServiceLayer {
             throw MongoError.couldNotHashFile
         }
         
-        guard let name = gameDocument.dictionaryRepresentation["name"] as? String else {
+        let dictionary = gameDocument.dictionaryRepresentation as [String: Any]
+        
+        guard let id = dictionary["_id"] as? ObjectId else {
             throw MongoError.couldNotHashFile
         }
         
-        guard let description = gameDocument.dictionaryRepresentation["description"] as? String else {
-            throw MongoError.couldNotHashFile
-        }
-        
-        guard let image = gameDocument.dictionaryRepresentation["image"] as? String else {
-            throw MongoError.couldNotHashFile
-        }
-        
-        guard let date = gameDocument.dictionaryRepresentation["date"] as? String else {
-            throw MongoError.couldNotHashFile
-        }
-        
-        guard let developer = gameDocument.dictionaryRepresentation["developer"] as? String else {
-            throw MongoError.couldNotHashFile
-        }
-        
-        
-        guard let id = gameDocument.dictionaryRepresentation["_id"] as? ObjectId else {
-            throw MongoError.couldNotHashFile
-        }
-        
-        let game = Game(name: name, description: description, image: image, date: date, developer: developer)
+        let game = try Game(dictionary: dictionary)
         game.id = id
         
         return game
@@ -80,34 +62,13 @@ class GameServiceLayer {
             throw MongoError.couldNotHashFile
         }
         
+        let dictionary = gameDocument.dictionaryRepresentation as [String: Any]
         
-        guard let name = gameDocument.dictionaryRepresentation["name"] as? String else {
+        guard let id = dictionary["_id"] as? ObjectId else {
             throw MongoError.couldNotHashFile
         }
         
-        guard let description = gameDocument.dictionaryRepresentation["description"] as? String else {
-            throw MongoError.couldNotHashFile
-        }
-        
-        guard let image = gameDocument.dictionaryRepresentation["image"] as? String else {
-            throw MongoError.couldNotHashFile
-        }
-        
-        guard let date = gameDocument.dictionaryRepresentation["date"] as? String else {
-            throw MongoError.couldNotHashFile
-        }
-        
-        guard let developer = gameDocument.dictionaryRepresentation["developer"] as? String else {
-            throw MongoError.couldNotHashFile
-        }
-        
-        
-        guard let id = gameDocument.dictionaryRepresentation["_id"] as? ObjectId else {
-            throw MongoError.couldNotHashFile
-        }
-        
-        
-        let game = Game(name: name, description: description, image: image, date: date, developer: developer)
+        let game = try Game(dictionary: dictionary)
         game.id = id
         
         return game
@@ -119,32 +80,13 @@ class GameServiceLayer {
         
         var games: [Game] = []
         for gameDocument in gameDocuments {
-            guard let name = gameDocument.dictionaryRepresentation["name"] as? String else {
+            let dictionary = gameDocument.dictionaryRepresentation as [String: Any]
+            
+            guard let id = dictionary["_id"] as? ObjectId else {
                 throw MongoError.couldNotHashFile
             }
             
-            guard let description = gameDocument.dictionaryRepresentation["description"] as? String else {
-                throw MongoError.couldNotHashFile
-            }
-            
-            guard let image = gameDocument.dictionaryRepresentation["image"] as? String else {
-                throw MongoError.couldNotHashFile
-            }
-            
-            guard let date = gameDocument.dictionaryRepresentation["date"] as? String else {
-                throw MongoError.couldNotHashFile
-            }
-            
-            guard let developer = gameDocument.dictionaryRepresentation["developer"] as? String else {
-                throw MongoError.couldNotHashFile
-            }
-            
-            
-            guard let id = gameDocument.dictionaryRepresentation["_id"] as? ObjectId else {
-                throw MongoError.couldNotHashFile
-            }
-            
-            let game = Game(name: name, description: description, image: image, date: date, developer: developer)
+            let game = try Game(dictionary: dictionary)
             game.id = id
             
             games.append(game)
