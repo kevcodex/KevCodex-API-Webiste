@@ -12,13 +12,15 @@ import PerfectLib
 /// The API layer for saving games into the Mongo Database
 class GameServiceLayer {
     
+    static let collection = globalDataBase["game"]
+    
     // MARK: - CRUD
     static func save(_ game: Game) throws {
         
         let query: Query = "_id" == game.id
         
         // this only inserts
-        //    Game.collection.insert(<#T##document: Document##Document#>)
+        //    Game.collection.insert()
         
         let documentForSave: Document = ["name": game.name,
                                          "description": game.description,
@@ -27,7 +29,7 @@ class GameServiceLayer {
                                          "developer": game.developer]
         
         // update can insert and update
-        try Game.collection.update(query,
+        try GameServiceLayer.collection.update(query,
                                    to: documentForSave,
                                    upserting: true)
     }
@@ -38,7 +40,7 @@ class GameServiceLayer {
         
         let query: Query = "_id" == objectID
         
-        guard let gameDocument = try Game.collection.findOne(query) else {
+        guard let gameDocument = try GameServiceLayer.collection.findOne(query) else {
             throw MongoError.couldNotHashFile
         }
         
@@ -58,7 +60,7 @@ class GameServiceLayer {
     static func find(name: String) throws -> Game  {
         let query: Query = "name" == name
         
-        guard let gameDocument = try Game.collection.findOne(query) else {
+        guard let gameDocument = try GameServiceLayer.collection.findOne(query) else {
             throw MongoError.couldNotHashFile
         }
         
@@ -76,7 +78,7 @@ class GameServiceLayer {
     
     static func findAll() throws -> [Game] {
         
-        let gameDocuments = try Game.collection.find()
+        let gameDocuments = try GameServiceLayer.collection.find()
         
         var games: [Game] = []
         for gameDocument in gameDocuments {
@@ -100,10 +102,10 @@ class GameServiceLayer {
     static func delete(name: String) throws {
         let query: Query = "name" == name
         
-        guard let _ = try Game.collection.findOne(query) else {
+        guard let _ = try GameServiceLayer.collection.findOne(query) else {
             throw MongoError.unsupportedFeature("Could not find \(name)")
         }
         
-        try Game.collection.remove(query)
+        try GameServiceLayer.collection.remove(query)
     }
 }

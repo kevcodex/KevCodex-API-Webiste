@@ -26,8 +26,6 @@ class Game: JSONConvertibleObject {
         case parsingError(message: String)
     }
     
-    static let collection = globalDataBase["game"]
-    
     var id: ObjectId
     var name: String
     var description: String
@@ -35,10 +33,7 @@ class Game: JSONConvertibleObject {
     var date: String
     var developer: String
     
-    
     var document: Document {
-        
-        
         return ["_id": id,
                 "name": name,
                 "description": description,
@@ -47,21 +42,7 @@ class Game: JSONConvertibleObject {
                 "developer": developer]
     }
     
-    init(name: String,
-         description: String,
-         image: String,
-         date: String,
-         developer: String) {
-        
-        self.id = ObjectId()
-        self.name = name
-        self.description = description
-        self.image = image
-        self.date = date
-        self.developer = developer
-    }
-    
-    convenience init(dictionary: [String: Any]) throws {
+    init(dictionary: [String: Any]) throws {
         guard let name = dictionary[JSONKey.name] as? String, !name.isEmpty else {
             throw Error.parsingError(message: "\(JSONKey.name) is not present!")
         }
@@ -82,7 +63,12 @@ class Game: JSONConvertibleObject {
             throw Error.parsingError(message: "\(JSONKey.developer) is not present!")
         }
         
-        self.init(name: name, description: description, image: image, date: date, developer: developer)
+        self.id = ObjectId()
+        self.name = name
+        self.description = description
+        self.image = image
+        self.date = date
+        self.developer = developer
     }
     
     // Allows for encoding
