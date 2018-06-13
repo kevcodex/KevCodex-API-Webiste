@@ -30,8 +30,8 @@ class GameServiceLayer {
         
         // update can insert and update
         try GameServiceLayer.collection.update(query,
-                                   to: documentForSave,
-                                   upserting: true)
+                                               to: documentForSave,
+                                               upserting: true)
     }
     
     // TODO - Put parsing in Game? 

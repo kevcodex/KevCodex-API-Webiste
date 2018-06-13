@@ -33,15 +33,6 @@ class Game: JSONConvertibleObject {
     var date: String
     var developer: String
     
-    var document: Document {
-        return ["_id": id,
-                "name": name,
-                "description": description,
-                "image": image,
-                "date": date,
-                "developer": developer]
-    }
-    
     init(dictionary: [String: Any]) throws {
         guard let name = dictionary[JSONKey.name] as? String, !name.isEmpty else {
             throw Error.parsingError(message: "\(JSONKey.name) is not present!")
