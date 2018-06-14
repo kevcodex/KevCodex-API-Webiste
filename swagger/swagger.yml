@@ -2,28 +2,26 @@ swagger: "2.0"
 
 info:
   version: 1.0.0
-  title: Simple API
-  description: A simple API to learn how to write OpenAPI Specification
+  title: Game API
+  description: A simple API to store some of my favorite video games
 
 schemes:
+  - http
   - https
-host: simple.api
-basePath: /openapi101
+host: localhost:8080
+basePath: /
 
 paths:
-  /persons:
+  /game:
     get:
-      summary: Gets some persons
-      description: Returns a list containing all persons. The list supports paging.
+      summary: A list of games.
+      description: Returns a list containing all persons.
       parameters:
-       - name: pageSize
-         in: query
-         description: Number of persons returned
-         type: integer
-       - name: pageNumber
-         in: query
-         description: Page number
-         type: integer
+        - name: json
+          in: query
+          description: Should the data be displayed as json or not
+          type: boolean
+          required: false
       responses:
         200:
           description: A list of Person
@@ -33,12 +31,27 @@ paths:
               required:
                 - username
               properties:
-                firstName:
+                description:
                   type: string
-                lastName:
+                name:
                   type: string
-                username:
+                date:
                   type: string 
+                image:
+                  type: string 
+                developer:
+                  type: string 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  
  
