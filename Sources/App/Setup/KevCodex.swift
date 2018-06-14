@@ -28,14 +28,21 @@ class KevCodex {
         //        let filters: [(HTTPRequestFilter, HTTPFilterPriority)] = [(Test(), HTTPFilterPriority.high)]
         //        server.setRequestFilters(filters)
         
+        var filters = [(HTTPRequestFilter, HTTPFilterPriority)]()
+        
+        let methodOverrideFilter: (HTTPRequestFilter, HTTPFilterPriority) = (MethodOverrideFilter(), HTTPFilterPriority.high)
+        
+        filters.append(methodOverrideFilter)
+        
         do {
-            let test = try WebRedirectsFilter.filterAPIRequest(data: [:])
-            let filters: [(HTTPRequestFilter, HTTPFilterPriority)] = [(test, HTTPFilterPriority.high)]
-            server.setRequestFilters(filters)
+            let redirectRequestFilter = try WebRedirectsFilter.filterAPIRequest(data: [:])
+            let redirectFilter: (HTTPRequestFilter, HTTPFilterPriority) = (redirectRequestFilter, HTTPFilterPriority.high)
+            filters.append(redirectFilter)
         } catch {
             fatalError()
         }
         
+        server.setRequestFilters(filters)
         
         return server
     }

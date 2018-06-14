@@ -18,7 +18,8 @@ final class TestController {
         return [
             Route(method: .get, uri: "/hello", handler: hello),
             Route(method: .get, uri: "/beers/{num_beers}", handler: beers),
-            Route(method: .get, uri: "/test/**", handler: staticRoute)
+            Route(method: .get, uri: "/test/**", handler: staticRoute),
+            Route(method: .put, uri: "/method/put", handler: putTest)
         ]
     }
     
@@ -64,8 +65,12 @@ final class TestController {
         // trigger the handling of the request,
         // with our documentRoot and modified path set
         handler.handleRequest(request: request, response: response)
-        
-        
+
+    }
+    
+    private func putTest(request: HTTPRequest, response: HTTPResponse) {
+        response.setBody(string: "Successfully routed to PUT")
+            .completed()
     }
     
 }
