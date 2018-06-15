@@ -80,10 +80,6 @@ final class GameController {
                 
                 for game in games {
                     string += "\(game.name), "
-                    
-                    let test = try game.jsonEncodedString()
-                    
-                    print(test)
                 }
                 
                 response.setBody(string: string)

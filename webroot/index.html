@@ -18,17 +18,17 @@
     <hr>
     <h2>View Games</h2>
     <br>
-    <a href="game">Games</a>
+    <a href="games">Games</a>
     <br>
-    <a href="game?json=true">Game JSON</a>
+    <a href="games?json=true">Game JSON</a>
     <br>
     <button>Games Button</button>
     <br>
-    <form action="/game" method="GET">
+    <form action="/games" method="GET">
         <input type="hidden" name="test" value="test">
         <input type="submit" value="View List">
     </form>
-    <form action="/game" method="GET">
+    <form action="/games" method="GET">
         <input type="hidden" name="json" value="true">
         <input type="submit" value="View JSON">
     </form>
@@ -39,7 +39,7 @@
     <hr>
     
     <h2>Create Game</h2>
-    <form id="tester" action="/game" method="POST">
+    <form id="tester" action="/games" method="POST">
         Name: <br>
         <input type="text" name="name" value="">
         <br> Description: <br>
