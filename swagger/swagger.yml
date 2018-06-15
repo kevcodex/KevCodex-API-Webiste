@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   title: Game API
   description: A simple API to store some of my favorite video games
-
+        
 schemes:
   - http
   - https
@@ -12,10 +12,10 @@ host: localhost:8080
 basePath: /
 
 paths:
-  /game:
+  /games:
     get:
       summary: A list of games.
-      description: Returns a list containing all persons.
+      description: Returns a list containing all games. If json query is specified it will return json. Otherwise, it will display in web format.
       parameters:
         - name: json
           in: query
@@ -24,35 +24,166 @@ paths:
           required: false
       responses:
         200:
-          description: A list of Person
+          description: A list of games
           schema:
             type: array
             items:
-              required:
-                - username
-              properties:
-                description:
-                  type: string
-                name:
-                  type: string
-                date:
-                  type: string 
-                image:
-                  type: string 
-                developer:
-                  type: string 
+              $ref: '#/definitions/Game'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+    post:
+      summary: Creates a game
+      description: Adds a new game to the database. 
+      parameters:
+        - $ref: '#/parameters/ApiKey'
+        - name: game
+          in: body
+          description: The game to create.
+          schema:
+            $ref: '#/definitions/Game'
+      responses:
+        200:
+          description: OK
+        default:
+           description: Unexpected error
+           schema:
+              $ref: '#/definitions/Error'
+              
+    delete:
+      summary: Deletes all games
+      description: Deletes all the games from the data base
+      parameters:
+        - $ref: '#/parameters/ApiKey'
+      responses:
+        200:
+          description: OK
+          
+  /games/id/{objectid}:
+    get:
+      summary: Get a game by ID
+      description: Gets a specfic game by object ID
+      parameters:
+        - $ref: '#/parameters/objectid'
+      responses:
+        200:
+          description: Information about the game
+          schema:
+            $ref: '#/definitions/Game'
+        default:
+           description: Unexpected error
+           schema:
+              $ref: '#/definitions/Error'
+    delete:
+      summary: Delete a game by ID
+      description: Deletes a specfic game by ID of the game.
+      parameters:
+        - $ref: '#/parameters/objectid'
+      responses:
+        200:
+          description: OK
+  /games/name/{name}:
+    get:
+      summary: Get a game by name
+      description: Gets a specfic game by name of the game. If there are games with the same name, it will pull the first game it finds
+      parameters:
+        - $ref: '#/parameters/name'
+      responses:
+        200:
+          description: Information about the game
+          schema:
+            $ref: '#/definitions/Game'
+        default:
+           description: Unexpected error
+           schema:
+              $ref: '#/definitions/Error'
+    delete:
+      summary: Delete a game by name
+      description: Deletes a specfic game by name of the game. If there are games with the same name, it will delete the first game it finds
+      parameters:
+        - $ref: '#/parameters/name'
+      responses:
+        200:
+          description: OK
+    
+    
+  
+    
  
+parameters:
+  ApiKey:
+    name: apiKey
+    in: header
+    description: The secret api key
+    required: true
+    type: string
+  name:
+    name: name
+    in: path
+    required: true
+    description: The game's name
+    type: string
+  objectid:
+    name: objectid
+    in: path
+    required: true
+    description: The game's name
+    type: string
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+definitions:
+  Game: 
+    type: object
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      date:
+        type: string
+      image:
+        type: string 
+      developer:
+        type: string 
+  Error:
+    type: object
+    properties:
+      context:
+        type: string
+        description: error context description -- using jsonld type errors
+        example:
+          http://www.w3.org/ns/hydra/context.jsonld
+      type:
+        type: string
+        description: indicates what the message type is
+        example:
+          Error
+      status:
+        type: string
+        description: String HTTP status code of the error
+        example:
+          500
+      statusCode:
+        type: integer
+        description: HTTP status code of the error
+        example:
+          500
+      errorCode:
+        type: integer
+        description: System error code for the error
+        example:
+          400
+      message:
+        type: string
+        description: Error Message
+        example:
+          Invalid Input
+      detail:
+        type: string
+        description: more details for the error -- potentially show the user
+        example:
+          Missing api key
  
  
  

@@ -9,82 +9,19 @@ import PerfectLib
 import PerfectHTTP
 
 final class GameController {
-    
-    enum Header {
-        case apiKey
-        
-        var key: String {
-            switch self {
-                
-            case .apiKey:
-                return "apikey"
-            }
-        }
-        
-        var body: String {
-            switch self {
-            case .apiKey:
-                return "API Key is missing!"
-            }
-        }
-    }
-    
-    enum QueryParameter {
-        case name
-        case description
-        case image
-        case date
-        case developer
-        case json
-        
-        var key: String {
-            switch self {
-                
-            case .name:
-                return "name"
-            case .description:
-                return "description"
-            case .image:
-                return "image"
-            case .date:
-                return "date"
-            case .developer:
-                return "developer"
-            case .json:
-                return "json"
-            
-            }
-        }
-        
-        var string: String {
-            switch self {
-            case .name:
-                return "Name Parameter"
-            case .description:
-                return "Description Parameter"
-            case .image:
-                return "Image Parameter"
-            case .date:
-                return "Date Parameter"
-            case .developer:
-                return "Developer Parameter"
-            case .json:
-                return "json"
-            }
-        }
-    }
-    
+
     var routes: Routes {
         return Routes(routesArray)
     }
     // TODO: - change game id to take the id in url or query?
     // TODO: - change delete to maek for RESTFUL aka actually use delete
+    // TODO: - modify API to match swagger spec
     // Need to create a _methodOverride middle ware that will change method
     private var routesArray: [Route] {
         return [
             Route(method: .get, uri: "/", handler: main),
-            Route(method: .get, uri: "/game", handler: getGame),
-            Route(method: .post, uri: "/game", handler: saveGame),
+            Route(method: .get, uri: "/games", handler: getGame),
+            Route(method: .post, uri: "/games", handler: saveGame),
             Route(method: .get, uri: "/game-id", handler: getGameFromID),
             Route(method: .post, uri: "/game-delete", handler: deleteGame)
         ]
@@ -135,7 +72,7 @@ final class GameController {
             
         } else {
             // show all games
-            
+            // TODO: - Look into making this endpoint only show json. Maybe another endpoint like games/view? for viewing
             do {
                 let games = try GameServiceLayer.findAll()
                 
@@ -274,5 +211,75 @@ final class GameController {
         }
         
         return parameter
+    }
+}
+
+// MARK: - Header
+extension GameController {
+    enum Header {
+        case apiKey
+        
+        var key: String {
+            switch self {
+                
+            case .apiKey:
+                return "apikey"
+            }
+        }
+        
+        var body: String {
+            switch self {
+            case .apiKey:
+                return "API Key is missing!"
+            }
+        }
+    }
+}
+
+// MARK: - Query Parameter
+extension GameController {
+    enum QueryParameter {
+        case name
+        case description
+        case image
+        case date
+        case developer
+        case json
+        
+        var key: String {
+            switch self {
+                
+            case .name:
+                return "name"
+            case .description:
+                return "description"
+            case .image:
+                return "image"
+            case .date:
+                return "date"
+            case .developer:
+                return "developer"
+            case .json:
+                return "json"
+                
+            }
+        }
+        
+        var string: String {
+            switch self {
+            case .name:
+                return "Name Parameter"
+            case .description:
+                return "Description Parameter"
+            case .image:
+                return "Image Parameter"
+            case .date:
+                return "Date Parameter"
+            case .developer:
+                return "Developer Parameter"
+            case .json:
+                return "json"
+            }
+        }
     }
 }
