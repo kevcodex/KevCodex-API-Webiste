@@ -2,7 +2,7 @@
 
 # Basic Server Side Swift Project #
 
-This is a basic server-side Perfect, Swift written project to display, save, and delete information related to my favorite games. The information is saved on mongoDB. The deployed web viewer to add and delete is on AWS at the domain [KevCodex](http://kevcodex.com/). The partner iOS app that retrieves data from this web server is here [iOS Partner](https://github.com/kirby10023/DemoShowcaseProject)
+This is a basic server-side Perfect, Swift written project to display, save, and delete information related to my favorite games. The information is saved on mongoDB. The deployed web viewer to add and delete is hosted on my local home server at the domain [KevCodex](https://kevcodex.com/) (I don't leave the server on 24/7 to save $$$). The partner iOS app that retrieves data from this web server is here [iOS Partner](https://github.com/kirby10023/DemoShowcaseProject)
 
 ***
 ## Getting Started ##
@@ -13,7 +13,7 @@ This is a basic server-side Perfect, Swift written project to display, save, and
 * Open Xcode Project
 * Setup Environment Variables Name: `DB_URI`, Value: `mongodb://localhost:27017` (go to Edit Scheme -> Arguments) 
 * Setup custom working directory to folder that contains webroot. E.g. `/Users/kirby/Documents/basicwebsite` (go to Edit Scheme -> Options -> Working Directory) 
-* Change Active Scheme to `basicwebsite`
+* Change Active Scheme to `Run`
 * Run MongoDB (Run Command `mongod`)
 * Run the Xcode Project
 * Navigate to `http://localhost:8080/` and you should see the web viewer
