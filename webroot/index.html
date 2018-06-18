@@ -39,7 +39,7 @@
     <hr>
     
     <h2>Create Game</h2>
-    <form id="tester" action="/games" method="POST">
+    <form id="create_game" action="/games" method="POST">
         Name: <br>
         <input type="text" name="name" value="">
         <br> Description: <br>
@@ -59,7 +59,7 @@
 
     <hr>
     <h2>Delete Game</h2>
-    <form action="/game-delete" method="POST">
+    <form id="delete_game" action="/games/name" method="POST">
         Name:
         <br>
         <input type="text" name="name" autocomplete="off" value="">
@@ -70,6 +70,7 @@
         <br>
         <input type="submit" value="Delete">
     </form>
+    <div id="save_output2"></div>
 
     <script type="text/javascript" src="js/test.js"></script>
 </body>

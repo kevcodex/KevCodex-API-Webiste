@@ -13,9 +13,9 @@ function changeColor() {
 // var httpRequest = new XMLHttpRequest();
 
 
-var formElement = document.getElementById("tester");
-formElement.onsubmit = function (event) {
-    var formData = new FormData(formElement);
+var createGameFormElement = document.getElementById("create_game");
+createGameFormElement.onsubmit = function (event) {
+    var formData = new FormData(createGameFormElement);
 
     var body = {};
     var headers = {};
@@ -36,7 +36,7 @@ formElement.onsubmit = function (event) {
     var json = JSON.stringify(body);
 
     var request = new XMLHttpRequest();
-    request.open("POST", formElement.getAttribute("action"), true);
+    request.open("POST", createGameFormElement.getAttribute("action"), true);
 
     Object.keys(headers).forEach(function (key) {
         request.setRequestHeader(key, headers[key])
@@ -48,6 +48,50 @@ formElement.onsubmit = function (event) {
         var output = document.getElementById("save_output")
         if (request.status == 200) {
             output.innerHTML = "Saved!" + ": " + request.response;
+        } else {
+            output.innerHTML = "Error " + request.status + ": " + request.statusText + ", " + request.response + " <br \/>";
+        }
+    };
+
+    event.preventDefault();
+}
+
+var deleteGameFormElement = document.getElementById("delete_game");
+deleteGameFormElement.onsubmit = function (event) {
+    var formData = new FormData(deleteGameFormElement);
+
+    // Set the body into the url
+    var body = {};
+    var headers = {};
+
+    for (var pair of formData.entries()) {
+
+        var key = pair[0];
+        var value = pair[1];
+
+        if (key.toLowerCase() == "apikey") {
+            headers[key] = value
+            continue;
+        }
+
+        body[key] = value;
+    }
+
+    var request = new XMLHttpRequest();
+    var url = deleteGameFormElement.getAttribute("action") + "/" + body["name"];
+    console.log(url);
+    request.open("DELETE", url, true);
+
+    Object.keys(headers).forEach(function (key) {
+        request.setRequestHeader(key, headers[key])
+    });
+
+    request.send();
+
+    request.onload = function (event) {
+        var output = document.getElementById("save_output2")
+        if (request.status == 200) {
+            output.innerHTML = request.response;
         } else {
             output.innerHTML = "Error " + request.status + ": " + request.statusText + ", " + request.response + " <br \/>";
         }

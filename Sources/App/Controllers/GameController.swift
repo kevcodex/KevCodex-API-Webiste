@@ -22,8 +22,8 @@ final class GameController {
             Route(method: .get, uri: "/", handler: main),
             Route(method: .get, uri: "/games", handler: getGame),
             Route(method: .post, uri: "/games", handler: saveGame),
-            Route(method: .get, uri: "/game-id", handler: getGameFromID),
-            Route(method: .post, uri: "/game-delete", handler: deleteGame)
+            Route(method: .get, uri: "/games/id/{objectid}", handler: getGameFromID),
+            Route(method: .delete, uri: "/games/name/{name}", handler: deleteGame)
         ]
     }
     
@@ -123,15 +123,13 @@ final class GameController {
     
     // MARK: - Get Game From ID
     private func getGameFromID(request: HTTPRequest, response: HTTPResponse) {
-        guard let id = request.header(.custom(name: "id")) else {
-            response.setBody(string: "ID header Missing")
-                .completed(status: .unauthorized)
-            
-            return
+        guard let objectIDString = request.urlVariables["objectid"] else {
+                response.completed(status: .badRequest)
+                return
         }
         
         do {
-            let game = try GameServiceLayer.find(id: id)
+            let game = try GameServiceLayer.find(id: objectIDString)
             
             response.setBody(string: "Game is named \(game.name)")
                 .completed()
@@ -170,18 +168,19 @@ final class GameController {
             return
         }
         
-        guard let name = checkParameter(for: .name, request: request, response: response) else {
+        guard let nameString = request.urlVariables["name"] else {
+            response.completed(status: .badRequest)
             return
         }
         
         do {
-            try GameServiceLayer.delete(name: name)
+            try GameServiceLayer.delete(name: nameString)
             
-            response.setBody(string: "\(name) successfully deleted")
+            response.setBody(string: "\(nameString) successfully deleted")
                 .completed()
         } catch {
             response.setBody(string: "Error handling request: \(error)")
-                .completed(status: .internalServerError)
+                .completed(status: .notFound)
         }
     }
     
