@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "Pulling Latest"
+git fetch --all
+git pull
+
 echo `date`
 echo "BUILDING"
 /home/kirby/swift-4.1.2-RELEASE-ubuntu16.04/usr/bin/swift build -c release
