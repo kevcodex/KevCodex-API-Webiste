@@ -9,7 +9,7 @@ import PerfectHTTPServer
 
 final class AppTests: XCTestCase {
     func testNothing() throws {
-        let server = App.KevCodexServer.server()
+        let server = App.KevCodex.server()
         XCTAssert(server.serverPort == 8080)
     }
 

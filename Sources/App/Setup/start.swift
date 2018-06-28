@@ -20,7 +20,7 @@ public func start() throws {
         // Unable to connect to Mongo
         print("MongoDB is not available on the given host and port")
         let routeFail = Route(method: .get, uri: "/" , handler: { (request, response) in
-            response.setBody(string: "MONGO FAIL")
+            response.setBody(string: "MONGO FAIL: \(error)")
                 .completed()
         })
         
