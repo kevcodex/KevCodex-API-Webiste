@@ -13,17 +13,15 @@ final class GameController {
     var routes: Routes {
         return Routes(routesArray)
     }
-    // TODO: - change game id to take the id in url or query?
-    // TODO: - change delete to maek for RESTFUL aka actually use delete
+    
     // TODO: - modify API to match swagger spec
-    // Need to create a _methodOverride middle ware that will change method
     private var routesArray: [Route] {
         return [
             Route(method: .get, uri: "/", handler: main),
             Route(method: .get, uri: "/games", handler: getGame),
             Route(method: .post, uri: "/games", handler: saveGame),
-            Route(method: .get, uri: "/games/id/{objectid}", handler: getGameFromID),
-            Route(method: .delete, uri: "/games/name/{name}", handler: deleteGame)
+            Route(method: .get, uri: "/games/name/{name}", handler: getGameByName),
+            Route(method: .delete, uri: "/games/name/{name}", handler: deleteGameByName)
         ]
     }
     
@@ -56,39 +54,23 @@ final class GameController {
             return
         }
         
-        // view a specific game by name
-        // TODO: - should be in a url?
-        if let name = request.header(.custom(name: "name")) {
+        // Show all games in web list
+        // TODO: - use mustache or some view renderer to show games
+        do {
+            let games = try GameServiceLayer.findAll()
             
-            do {
-                let game = try GameServiceLayer.find(name: name)
-                
-                response.setBody(string: "Found game with id: \(game.id), named \(game.name)")
-                    .completed()
-            } catch {
-                response.setBody(string: "Error handling request: \(error)")
-                    .completed(status: .internalServerError)
+            var string = "My Favorite games are: "
+            
+            for game in games {
+                string += "\(game.name), "
             }
             
-        } else {
-            // show all games
-            // TODO: - Look into making this endpoint only show json. Maybe another endpoint like games/view? for viewing
-            do {
-                let games = try GameServiceLayer.findAll()
-                
-                var string = "My Favorite games are: "
-                
-                for game in games {
-                    string += "\(game.name), "
-                }
-                
-                response.setBody(string: string)
-                    .completed()
-                
-            } catch {
-                response.setBody(string: "Error handling request: \(error)")
-                    .completed(status: .internalServerError)
-            }
+            response.setBody(string: string)
+                .completed()
+            
+        } catch {
+            response.setBody(string: "Error handling request: \(error)")
+                .completed(status: .internalServerError)
         }
     }
     
@@ -118,6 +100,25 @@ final class GameController {
         } catch {
             response.setBody(string: "Error handling request: \(error)")
                 .completed(status: .notFound)
+        }
+    }
+    
+    // MARK: - Get Game From Name
+    private func getGameByName(request: HTTPRequest, response: HTTPResponse) {
+        
+        guard let nameString = request.urlVariables["name"] else {
+            response.completed(status: .badRequest)
+            return
+        }
+
+        do {
+            let game = try GameServiceLayer.find(name: nameString)
+            
+            response.setBody(string: "Found game with id: \(game.id), named \(game.name)")
+                .completed()
+        } catch {
+            response.setBody(string: "Error handling request: \(error)")
+                .completed(status: .internalServerError)
         }
     }
     
@@ -156,7 +157,7 @@ final class GameController {
     }
     
     // MARK: - Delete Game
-    private func deleteGame(request: HTTPRequest, response: HTTPResponse) {
+    private func deleteGameByName(request: HTTPRequest, response: HTTPResponse) {
         guard let apiKey = checkHeader(for: .apiKey, request: request, response: response) else {
             return
         }
