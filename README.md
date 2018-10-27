@@ -1,5 +1,7 @@
 # KevCodex
 
+**ARCHIVED, use [this repo](https://github.com/kevcodex/KevCodex-iOS-Partner-App)**
+
 # Basic Server Side Swift Project #
 
 This is a basic server-side Perfect, Swift written project to display, save, and delete information related to my favorite games. The information is saved on mongoDB. The deployed web viewer to add and delete is hosted on my local home server at the domain [KevCodex](https://kevcodex.com/) (I don't leave the server on 24/7 to save $$$). The partner iOS app that retrieves data from this web server is here [iOS Partner](https://github.com/kirby10023/DemoShowcaseProject)
